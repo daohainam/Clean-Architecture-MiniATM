@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MiniATM.UseCase
 {
-    public interface ITransactionManager
+    public interface ITransferManager
     {
-        Task<TransactionResult> WithdrawCashAsync(string accountId, double amount);
         Task<TransactionResult> TransferAsync(string fromAccountId, string toAccountId, double amount);
     }
 }
