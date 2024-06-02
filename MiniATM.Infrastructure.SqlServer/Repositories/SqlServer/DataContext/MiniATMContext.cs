@@ -24,6 +24,7 @@ namespace MiniATM.Infrastructure.SqlServer.Repositories.SqlServer.DataContext
         }
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
