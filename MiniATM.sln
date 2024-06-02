@@ -7,13 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniATM.Entities", "MiniATM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniATM.UseCase", "MiniATM.UseCase\MiniATM.UseCase.csproj", "{4C1A01F7-452F-47C5-99B4-A5B3E9BA46F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniATM.Infrastructure", "MiniATM.Infrastructure\MiniATM.Infrastructure.csproj", "{EAEBE9D6-E8A5-439E-8F0F-B29F3D551B7D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniATM.Infrastructure.SqlServer", "MiniATM.Infrastructure.SqlServer\MiniATM.Infrastructure.SqlServer.csproj", "{474A613D-DDA5-49A7-BB6E-05E517B02580}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{433B497A-4231-4749-AC7D-15BD8E8BADDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseCaseTests", "Tests\UseCaseTests\UseCaseTests.csproj", "{383D7CB5-F0F6-4A32-A903-C62932501F2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCaseTests", "Tests\UseCaseTests\UseCaseTests.csproj", "{383D7CB5-F0F6-4A32-A903-C62932501F2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{4C1A01F7-452F-47C5-99B4-A5B3E9BA46F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C1A01F7-452F-47C5-99B4-A5B3E9BA46F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C1A01F7-452F-47C5-99B4-A5B3E9BA46F5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EAEBE9D6-E8A5-439E-8F0F-B29F3D551B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAEBE9D6-E8A5-439E-8F0F-B29F3D551B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAEBE9D6-E8A5-439E-8F0F-B29F3D551B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAEBE9D6-E8A5-439E-8F0F-B29F3D551B7D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{474A613D-DDA5-49A7-BB6E-05E517B02580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{474A613D-DDA5-49A7-BB6E-05E517B02580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{474A613D-DDA5-49A7-BB6E-05E517B02580}.Release|Any CPU.ActiveCfg = Release|Any CPU

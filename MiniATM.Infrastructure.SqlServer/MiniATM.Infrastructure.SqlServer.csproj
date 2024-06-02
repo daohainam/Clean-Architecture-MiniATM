@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MiniATM.Entities\MiniATM.Entities.csproj" />
-    <ProjectReference Include="..\MiniATM.Infrastructure\MiniATM.Infrastructure.csproj" />
     <ProjectReference Include="..\MiniATM.UseCase\MiniATM.UseCase.csproj" />
   </ItemGroup>
 
