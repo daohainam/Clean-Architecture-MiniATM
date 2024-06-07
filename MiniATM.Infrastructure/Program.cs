@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MiniATM.Infrastructure.CashStorage;
+using MiniATM.Infrastructure.InMemory;
 using MiniATM.Infrastructure.Models;
 using MiniATM.Infrastructure.SqlServer.Repositories.SqlServer;
 using MiniATM.Infrastructure.SqlServer.Repositories.SqlServer.DataContext;
@@ -69,30 +70,33 @@ public class Program
             services.AddTransient<ITransactionRepository>(services => new SqlServerTransactionRepository(
                 services.GetRequiredService<MiniATMContext>(), services.GetRequiredService<IMapper>()
                 ));
-            services.AddTransient<IBankAccountFinder>(services => new RepositoryBankAccountFinder(
-                services.GetRequiredService<IBankAccountRepository>()
-                ));
             services.AddTransient<ITransactionUnitOfWork>(services => new SqlServerTransactionUnitOfWork(
                 services.GetRequiredService<MiniATMContext>(), services.GetRequiredService<IMapper>()
                 ));
-
-            services.AddSingleton<ICashStorage>(services => new InMemoryCashStorage(
-                services.GetRequiredService<ILogger<InMemoryCashStorage>>(),
-                5000
-                ));
-            services.AddTransient<ICashWithdrawalManager>(services => new CashWithdrawalManager(
-                services.GetRequiredService<ITransactionUnitOfWork>(),
-                services.GetRequiredService<ICashStorage>(),
-                true
-                ));
-            services.AddTransient<ITransferManager>(services => new TransferManager(
-                services.GetRequiredService<ITransactionUnitOfWork>()
-                ));
-
         }
         else
         {
-            // we need to implement remote repositories and register here
+            services.AddTransient<IBankAccountRepository>(services => new InMemoryBankAccountRepository());
+            services.AddTransient<ICustomerRepository>(services => new InMemoryCustomerRepository());
+            services.AddTransient<ITransactionRepository>(services => new InMemoryTransactionRepository());
+            services.AddTransient<ITransactionUnitOfWork>(services => new InMemoryTransactionUnitOfWork());
         }
+
+        services.AddSingleton<ICashStorage>(services => new InMemoryCashStorage(
+            services.GetRequiredService<ILogger<InMemoryCashStorage>>(),
+            5000
+            )); // must be singleton
+
+        services.AddTransient<IBankAccountFinder>(services => new RepositoryBankAccountFinder(
+            services.GetRequiredService<IBankAccountRepository>()
+            ));
+        services.AddTransient<ICashWithdrawalManager>(services => new CashWithdrawalManager(
+            services.GetRequiredService<ITransactionUnitOfWork>(),
+            services.GetRequiredService<ICashStorage>(),
+            true
+            ));
+        services.AddTransient<ITransferManager>(services => new TransferManager(
+            services.GetRequiredService<ITransactionUnitOfWork>()
+            ));
     }
 }

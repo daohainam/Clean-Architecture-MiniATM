@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MiniATM.Infrastructure.InMemory
 {
-    internal class InMemoryTransactionRepository : ITransactionRepository
+    public class InMemoryTransactionRepository : ITransactionRepository
     {
         private readonly List<Transaction> transactions;
 
