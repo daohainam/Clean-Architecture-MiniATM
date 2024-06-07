@@ -13,7 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{433B497A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseCaseTests", "Tests\UseCaseTests\UseCaseTests.csproj", "{383D7CB5-F0F6-4A32-A903-C62932501F2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniATM.Infrastructure", "MiniATM.Infrastructure\MiniATM.Infrastructure.csproj", "{FA24E2D4-B4FB-42F9-AB21-103DFA42AB98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniATM.Infrastructure", "MiniATM.Infrastructure\MiniATM.Infrastructure.csproj", "{FA24E2D4-B4FB-42F9-AB21-103DFA42AB98}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DBScripts", "DBScripts", "{73A08A9D-82DE-445C-82D6-3D1AECDA5BC6}"
+	ProjectSection(SolutionItems) = preProject
+		DBScripts\seeding.sql = DBScripts\seeding.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

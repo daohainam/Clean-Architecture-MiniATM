@@ -8,11 +8,13 @@ namespace MiniATM.Infrastructure.Controllers
     {
         public readonly IBankAccountFinder accountFinder;
         private readonly ITransferManager transferManager;
+        private readonly ICashWithdrawalManager cashWithdrawalManager;
 
-        public CoreBankingController(IBankAccountFinder accountFinder, ITransferManager transferManager)
+        public CoreBankingController(IBankAccountFinder accountFinder, ITransferManager transferManager, ICashWithdrawalManager cashWithdrawalManager)
         {
             this.accountFinder = accountFinder;
             this.transferManager = transferManager;
+            this.cashWithdrawalManager = cashWithdrawalManager;
         }
 
         private static Guid GetCustomerId()
@@ -28,6 +30,7 @@ namespace MiniATM.Infrastructure.Controllers
             return View(new ChooseAccountModel() { BankAccounts = accounts, ReturnUrl = returnUrl });
         }
 
+        #region Transfer
         [HttpGet]
         public IActionResult Transfer(string bankAccount)
         {
@@ -54,5 +57,32 @@ namespace MiniATM.Infrastructure.Controllers
                 Message = result.Message
             });
         }
+        #endregion
+
+        #region Withdrawal
+        [HttpGet]
+        public IActionResult WithDraw(string bankAccount)
+        {
+            return View(new WithdrawModel()
+            {
+                FromBankAccount = bankAccount,
+                Amount = 0,
+            });
+        }
+        public async Task<IActionResult> WithdrawAsync([FromForm] WithdrawModel model)
+        {
+            ArgumentNullException.ThrowIfNull(model);
+
+            var result = await cashWithdrawalManager.WithdrawAsync(model.FromBankAccount, model.Amount);
+
+            return View("WithdrawResult", new WithdrawResultModel()
+            {
+                FromBankAccount = model.FromBankAccount,
+                Amount = model.Amount,
+                ResultCode = result.ResultCode,
+                Message = result.Message
+            });
+        }
+        #endregion
     }
 }

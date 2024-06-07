@@ -2,6 +2,8 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using MiniATM.Infrastructure.CashStorage;
 using MiniATM.Infrastructure.Models;
 using MiniATM.Infrastructure.SqlServer.Repositories.SqlServer;
 using MiniATM.Infrastructure.SqlServer.Repositories.SqlServer.DataContext;
@@ -74,6 +76,15 @@ public class Program
                 services.GetRequiredService<MiniATMContext>(), services.GetRequiredService<IMapper>()
                 ));
 
+            services.AddSingleton<ICashStorage>(services => new InMemoryCashStorage(
+                services.GetRequiredService<ILogger<InMemoryCashStorage>>(),
+                5000
+                ));
+            services.AddTransient<ICashWithdrawalManager>(services => new CashWithdrawalManager(
+                services.GetRequiredService<ITransactionUnitOfWork>(),
+                services.GetRequiredService<ICashStorage>(),
+                true
+                ));
             services.AddTransient<ITransferManager>(services => new TransferManager(
                 services.GetRequiredService<ITransactionUnitOfWork>()
                 ));

@@ -1,0 +1,26 @@
+﻿@model WithdrawModel
+
+@{
+    ViewData["Title"] = "Mini ATM - Withdraw";
+}
+
+<div class="text-center m-5">
+    <h1 class="display-4">Withdraw</h1>
+</div>
+
+<form method="post">
+    <div class="mb-3">
+        <label for="fromAccount" class="form-label">From account</label>
+        <input type="text" maxlength="50" class="form-control" id="fromAccount" name="fromBankAccount" value="@Model.FromBankAccount" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="fromAccount" class="form-label">Amount</label>
+        <input type="number" maxlength="20" class="form-control" id="amount" name="amount" value="@Model.Amount">
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Withdraw</button>
+</form>
+
+<div class="mt-5">
+    <a href="/">Cancel</a>
+</div>
