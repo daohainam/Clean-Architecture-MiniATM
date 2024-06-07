@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DBScripts", "DBScripts", "{
 		DBScripts\seeding.sql = DBScripts\seeding.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniATM.Infrastructure.InMemory", "MiniATM.Infrastructure.InMemory\MiniATM.Infrastructure.InMemory.csproj", "{0FF6D429-5850-4EA6-BD17-1434CCDA3A1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{FA24E2D4-B4FB-42F9-AB21-103DFA42AB98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA24E2D4-B4FB-42F9-AB21-103DFA42AB98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA24E2D4-B4FB-42F9-AB21-103DFA42AB98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FF6D429-5850-4EA6-BD17-1434CCDA3A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF6D429-5850-4EA6-BD17-1434CCDA3A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF6D429-5850-4EA6-BD17-1434CCDA3A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF6D429-5850-4EA6-BD17-1434CCDA3A1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
