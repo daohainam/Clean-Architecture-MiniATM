@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MiniATM.Entities\MiniATM.Entities.csproj" />
     <ProjectReference Include="..\MiniATM.Infrastructure.SqlServer\MiniATM.Infrastructure.SqlServer.csproj" />
     <ProjectReference Include="..\MiniATM.UseCase\MiniATM.UseCase.csproj" />
   </ItemGroup>

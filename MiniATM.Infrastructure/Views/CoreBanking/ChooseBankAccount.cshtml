@@ -1,0 +1,29 @@
+﻿@model ChooseAccountModel
+
+@{
+    ViewData["Title"] = "Mini ATM";
+}
+
+<div class="text-center m-5">
+    <h1 class="display-4">Choose an account</h1>
+</div>
+
+@if (Model.IsEmpty)
+{
+    <div>
+        You have no bank accounts
+    </div>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var account in Model.BankAccounts)
+        {
+            <a href="@Model.ReturnUrl?bankAccount=@account.Id" class="list-group-item list-group-item-action @(account.IsLocked ? "disabled" : string.Empty)">@account.Id (balance: @account.Balance)</a>
+        }
+    </div>
+}
+
+<div class="mt-5">
+    <a href="/">Go back</a>
+</div>

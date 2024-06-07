@@ -1,10 +1,12 @@
 
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MiniATM.Infrastructure.Models;
 using MiniATM.Infrastructure.SqlServer.Repositories.SqlServer;
 using MiniATM.Infrastructure.SqlServer.Repositories.SqlServer.DataContext;
 using MiniATM.Infrastructure.SqlServer.Repositories.SqlServer.MapperProfile;
+using MiniATM.UseCase;
 using MiniATM.UseCase.Repositories;
 using MiniATM.UseCase.UnitOfWork;
 
@@ -47,12 +49,14 @@ public class Program
 
     private static void RegisterInfrastructureServices(ConfigurationManager configuration, IServiceCollection services)
     {
-        var connectionString = configuration.GetConnectionString("MiniATMDatabase");
         var repositoryOptions = configuration.GetSection("RepositoryOptions").Get<RepositoryOptions>() ?? throw new Exception("No RepositoryOptions found");
 
         if (repositoryOptions.RepositoryType == RepositoryTypes.SqlServer)
         {
             services.AddAutoMapper(typeof(SqlServer2EntityProfile));
+
+            services.AddDbContext<MiniATMContext>(
+                options => options.UseSqlServer(configuration.GetConnectionString("MiniATMDatabase")));
 
             services.AddTransient<IBankAccountRepository>(services => new SqlServerBankAccountRepository(
                 services.GetRequiredService<MiniATMContext>(), services.GetRequiredService<IMapper>()
@@ -63,9 +67,17 @@ public class Program
             services.AddTransient<ITransactionRepository>(services => new SqlServerTransactionRepository(
                 services.GetRequiredService<MiniATMContext>(), services.GetRequiredService<IMapper>()
                 ));
+            services.AddTransient<IBankAccountFinder>(services => new RepositoryBankAccountFinder(
+                services.GetRequiredService<IBankAccountRepository>()
+                ));
             services.AddTransient<ITransactionUnitOfWork>(services => new SqlServerTransactionUnitOfWork(
                 services.GetRequiredService<MiniATMContext>(), services.GetRequiredService<IMapper>()
                 ));
+
+            services.AddTransient<ITransferManager>(services => new TransferManager(
+                services.GetRequiredService<ITransactionUnitOfWork>()
+                ));
+
         }
         else
         {

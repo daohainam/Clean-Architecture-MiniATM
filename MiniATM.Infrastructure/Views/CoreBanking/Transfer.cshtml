@@ -1,4 +1,30 @@
-﻿@*
-*@
+﻿@model TransferModel
+
 @{
+    ViewData["Title"] = "Mini ATM - Transfer";
 }
+
+<div class="text-center m-5">
+    <h1 class="display-4">Transfer</h1>
+</div>
+
+<form method="post">
+    <div class="mb-3">
+        <label for="fromAccount" class="form-label">From account</label>
+        <input type="text" maxlength="50" class="form-control" id="fromAccount" name="fromBankAccount" value="@Model.FromBankAccount" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="toAccount" class="form-label">To account</label>
+        <input type="text" maxlength="50" class="form-control" id="toAccount" name="toBankAccount" value="@Model.ToBankAccount">
+    </div>
+    <div class="mb-3">
+        <label for="fromAccount" class="form-label">Amount</label>
+        <input type="number" maxlength="20" class="form-control" id="amount" name="amount" value="@Model.Amount">
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Transfer</button>
+</form>
+
+<div class="mt-5">
+    <a href="/">Cancel</a>
+</div>

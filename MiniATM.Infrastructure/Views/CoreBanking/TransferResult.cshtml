@@ -1,0 +1,41 @@
+﻿@model TransferResultModel
+
+@{
+    ViewData["Title"] = "Mini ATM - Transfer result";
+}
+
+<div class="text-center m-5">
+    <h1 class="display-4">Transfer result</h1>
+</div>
+
+@if (Model.ResultCode == MiniATM.UseCase.TransactionResultCodes.Success)
+{
+    <div class="alert alert-success" role="alert">
+        Transfer commited successfully!
+    </div>  
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        Error: @Model.Message (Result code: @Model.ResultCode)
+    </div>
+}
+
+<div>
+    <div class="mb-3">
+        <label for="fromAccount" class="form-label">From account</label>
+        <input type="text" maxlength="50" class="form-control" id="fromAccount" value="@Model.FromBankAccount" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="toAccount" class="form-label">To account</label>
+        <input type="text" maxlength="50" class="form-control" id="toAccount" value="@Model.ToBankAccount" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="fromAccount" class="form-label">Amount</label>
+        <input type="number" maxlength="20" class="form-control" id="amount" value="@Model.Amount" readonly>
+    </div>
+</div>
+
+<div class="mt-5">
+    <a href="/">Home</a>
+</div>
