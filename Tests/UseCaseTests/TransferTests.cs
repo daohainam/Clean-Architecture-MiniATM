@@ -5,6 +5,7 @@ using Moq;
 
 namespace UseCaseTests
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1031:Do not use blocking task operations in test method", Justification = "<Pending>")]
     public class TransferTests
     {
         [Fact]
@@ -73,8 +74,8 @@ namespace UseCaseTests
 
             var result = await transactionManager.TransferAsync("0001", "0002", 2000);
             Assert.Equal(TransactionResultCodes.Success, result.ResultCode);
-            Assert.Equal(1000, transactionUnitOfWork.BankAccountRepository.FindByIdAsync("0001").Result.Balance);
-            Assert.Equal(2000, transactionUnitOfWork.BankAccountRepository.FindByIdAsync("0002").Result.Balance);
+            Assert.Equal(1000, transactionUnitOfWork.BankAccountRepository.FindByIdAsync("0001").Result?.Balance);
+            Assert.Equal(2000, transactionUnitOfWork.BankAccountRepository.FindByIdAsync("0002").Result?.Balance);
         }
 
         [Fact]
@@ -143,8 +144,8 @@ namespace UseCaseTests
 
             var result = await transactionManager.TransferAsync("0001", "0002", 5000);
             Assert.Equal(TransactionResultCodes.Success, result.ResultCode);
-            Assert.Equal(-2000, transactionUnitOfWork.BankAccountRepository.FindByIdAsync("0001").Result.Balance);
-            Assert.Equal(8000, transactionUnitOfWork.BankAccountRepository.FindByIdAsync("0002").Result.Balance);
+            Assert.Equal(-2000, transactionUnitOfWork.BankAccountRepository.FindByIdAsync("0001").Result?.Balance);
+            Assert.Equal(8000, transactionUnitOfWork.BankAccountRepository.FindByIdAsync("0002").Result?.Balance);
         }
     }
 }
