@@ -20,7 +20,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DBScripts", "DBScripts", "{
 		DBScripts\seeding.sql = DBScripts\seeding.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniATM.Infrastructure.InMemory", "MiniATM.Infrastructure.InMemory\MiniATM.Infrastructure.InMemory.csproj", "{0FF6D429-5850-4EA6-BD17-1434CCDA3A1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniATM.Infrastructure.InMemory", "MiniATM.Infrastructure.InMemory\MiniATM.Infrastructure.InMemory.csproj", "{0FF6D429-5850-4EA6-BD17-1434CCDA3A1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniATM.UseCase.Caching", "MiniATM.UseCase.Caching\MiniATM.UseCase.Caching.csproj", "{C452C37C-56AE-4E8E-B132-103673330016}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +54,10 @@ Global
 		{0FF6D429-5850-4EA6-BD17-1434CCDA3A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF6D429-5850-4EA6-BD17-1434CCDA3A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FF6D429-5850-4EA6-BD17-1434CCDA3A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C452C37C-56AE-4E8E-B132-103673330016}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C452C37C-56AE-4E8E-B132-103673330016}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C452C37C-56AE-4E8E-B132-103673330016}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C452C37C-56AE-4E8E-B132-103673330016}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

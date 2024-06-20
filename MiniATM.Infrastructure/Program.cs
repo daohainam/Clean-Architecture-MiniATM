@@ -1,6 +1,7 @@
 
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MiniATM.Infrastructure.CashStorage;
@@ -10,6 +11,7 @@ using MiniATM.Infrastructure.SqlServer.Repositories.SqlServer;
 using MiniATM.Infrastructure.SqlServer.Repositories.SqlServer.DataContext;
 using MiniATM.Infrastructure.SqlServer.Repositories.SqlServer.MapperProfile;
 using MiniATM.UseCase;
+using MiniATM.UseCase.Caching;
 using MiniATM.UseCase.Repositories;
 using MiniATM.UseCase.UnitOfWork;
 
@@ -52,7 +54,7 @@ public class Program
 
     private static void RegisterInfrastructureServices(ConfigurationManager configuration, IServiceCollection services)
     {
-        var repositoryOptions = configuration.GetSection("RepositoryOptions").Get<RepositoryOptions>() ?? throw new Exception("No RepositoryOptions found");
+        var repositoryOptions = configuration.GetSection("Repository").Get<RepositoryOptions>() ?? throw new Exception("No RepositoryOptions found");
 
         if (repositoryOptions.RepositoryType == RepositoryTypes.SqlServer)
         {
@@ -82,21 +84,65 @@ public class Program
             services.AddTransient<ITransactionUnitOfWork>(services => new InMemoryTransactionUnitOfWork());
         }
 
+        var cacheOptions = configuration.GetSection("Cache").Get<CacheOptions>() ?? new CacheOptions();
+        InitializeCache(services, configuration, cacheOptions);
+
         services.AddSingleton<ICashStorage>(services => new InMemoryCashStorage(
             services.GetRequiredService<ILogger<InMemoryCashStorage>>(),
             5000
             )); // must be singleton
 
-        services.AddTransient<IBankAccountFinder>(services => new RepositoryBankAccountFinder(
+        services.AddTransient<IBankAccountFinder>(services => new CachableBankAccountFinder(new RepositoryBankAccountFinder(
             services.GetRequiredService<IBankAccountRepository>()
+            ),
+            services.GetRequiredService<IDistributedCache>(),
+            configuration.GetSection("CachableBankAccountFinderOptions").Get<CachableBankAccountFinderOptions>() ?? new(),
+            services.GetRequiredService<ILogger<CachableBankAccountFinder>>()
             ));
+
         services.AddTransient<ICashWithdrawalManager>(services => new CashWithdrawalManager(
             services.GetRequiredService<ITransactionUnitOfWork>(),
             services.GetRequiredService<ICashStorage>(),
             true
             ));
+
         services.AddTransient<ITransferManager>(services => new TransferManager(
             services.GetRequiredService<ITransactionUnitOfWork>()
             ));
+    }
+
+    private static void InitializeCache(IServiceCollection services, ConfigurationManager configuration, CacheOptions cacheOptions)
+    {
+        switch (cacheOptions.Type) { 
+            case CacheTypes.Memory:
+                services.AddDistributedMemoryCache();
+                break;
+            case CacheTypes.SqlServer:
+                /*
+                 * Run this SQL to create cache table: dotnet sql-cache create <connection string> dbo <cache table>
+                 */
+
+                if (cacheOptions.SqlServerOptions == null)
+                {
+                    throw new Exception("Missing option: CachingOptions:SqlServer");
+                }
+                services.AddDistributedSqlServerCache(options => {
+                    options.ConnectionString = configuration.GetConnectionString(cacheOptions.SqlServerOptions.ConnectionStringName);
+                    options.TableName = cacheOptions.SqlServerOptions.TableName;
+                    options.SchemaName = cacheOptions.SqlServerOptions.SchemaName;
+                });
+                break;
+            case CacheTypes.Redis:
+                if (cacheOptions.RedisOptions == null)
+                {
+                    throw new Exception("Missing option: CachingOptions:Redis");
+                }
+                services.AddStackExchangeRedisCache(options => {
+                    options.Configuration = configuration.GetConnectionString(cacheOptions.RedisOptions.ConnectionStringName);
+                });
+                break;
+            default: 
+                throw new Exception("Unknown cache type");
+        }
     }
 }
